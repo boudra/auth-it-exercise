@@ -26,26 +26,7 @@ app.use(session({
   }
 }));
 
-app.post('/register', async (req, res) => {
-
-  const {email, password, firstName, lastName} = req.body;
-  let hashedPassword ;
-
-  const exists = await User.find({email:email});
-  if (exists) {
-    res.status(400);
-    res.json(`Email ${email} already exists. Please choose another email id`);
-  }
-
-  hashedPassword = await bcrypt.hash(password, 10);
-
-  const newUser = await User.create({email, password, firstName, lastName});
-  // res.session.email = newUser.email;
-  res.json(newUser);
-
-});
-
-// app.use(router);
+app.use(router);
 
 app.get('*', (req, res) => {
   res.status(404).send('Sorry, not found 😞');
